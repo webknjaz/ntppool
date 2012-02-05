@@ -8,6 +8,10 @@ our @EXPORT_OK = qw(score_graph offset_graph);
 
 use namespace::clean;
 
+sub last_update {
+    #my (
+}
+
 sub score_graph {
     my ($server, $defaults) = @_;
 

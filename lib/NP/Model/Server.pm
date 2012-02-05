@@ -1,7 +1,6 @@
 package NP::Model::Server;
 use strict;
 use Text::CSV_XS;
-use File::Path qw(mkpath);
 use Carp qw(croak);
 use NP::RRD qw(score_graph offset_graph);
 use Net::IP ();
@@ -212,24 +211,6 @@ sub _netspeed_human {
   return ($netspeed/1_000_000) . ' Gbit' if ($netspeed / 1_000_000 > 1);
   return ($netspeed/1_000) . ' Mbit' if ($netspeed / 1_000 >= 1);
   return "$netspeed Kbit";
-}
-
-
-my $rrd_path = "$ENV{CBROOTLOCAL}/rrd/server";
-mkpath "$rrd_path/graph/" unless -e "$rrd_path/graph";
-
-sub rrd_path {
-    my $self = shift;
-    my $monitor_id = shift;
-    my $dir  = int( $self->id / 100 ) * 100;
-    "$rrd_path/$dir/" . $self->id . ($monitor_id ? "-$monitor_id" : "") . ".rrd";
-}
-
-sub graph_path {
-    my ($self, $name) = @_;
-    my $dir  = int( $self->id / 500 ) * 500;
-    my $file = $dir . '/' . $self->id . ($name ? "-$name" : "") . ".png";
-    return "$rrd_path/graph/" . $file;
 }
 
 sub graph_uri {

@@ -19,7 +19,7 @@ sub render {
 
     return $self->redirect('/graph/' . $server->ip . "/$type" , 301) unless $p eq $server->ip;
 
-    eval { $gearman->do_task('update_graphs', $server->id, {uniq => 'graphs-' . $server->id}); };
+    my $graph = eval { $gearman->do_task('update_graphs', $server->id, {uniq => 'graphs-' . $server->id}); };
 
     my $err = $@;
     warn "update_graphs error: $err" if $err;
